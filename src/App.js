@@ -1,55 +1,54 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCard } from './features/cards/cardsSlice';
+import { addCard, rmCard } from './features/cards/cardsSlice';
 import Card from './components/Card';
 
 function App() {
  const dispatch = useDispatch();
- const [newDescription, setNewDescription] = useState('');
- const [newTitle, setNewTitle] = useState('');
- const [newImage, setNewImage] = useState(null);
-
  const cards = useSelector((state) => state.cards);
 
  const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(addCard({ 
-      title: newTitle, 
-      description: newDescription, 
-      imageUrl: newImage 
-    }));
-    setNewDescription('');
-    setNewTitle('');
-    setNewImage(null);
+    dispatch(
+      addCard({ 
+        title: event.target.title.value, 
+        description: event.target.description.value, 
+        imageUrl: URL.createObjectURL(event.target.image.files[0])  
+      })
+    );
+    event.target.reset();
  };
 
- const handleFileChange = (event) => {
-  setNewImage(URL.createObjectURL(event.target.files[0]));
+ const handleDelite = (id) => {
+  console.log('id', id)
+  // event.preventDefault();
+  dispatch(
+    rmCard({ 
+      id 
+    })
+  );
+  // event.target.reset();
 };
 
  return (
-    <div className="App" style={{
-      backgroundColor: 'antiquewhite'
-    }}>
+    <div className="App" style={{backgroundColor: 'antiquewhite'}}>
       <form onSubmit={handleSubmit} 
       style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
       }}>
-        <label id='title'>Title</label>
+        <label htmlFor='title'>Title</label>
         <input
           key='title'
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
+          name='title'
         />
-        <label id='description'>Description</label>
+        <label htmlFor='description'>Description</label>
         <textarea
           key='description'
-          value={newDescription}
-          onChange={(e) => setNewDescription(e.target.value)}
+          name='description'
         />
-        <input type="file" onChange={handleFileChange} 
+        <input type="file" id="image" name="image" 
         style={{
           margin: 20
         }} />
@@ -61,7 +60,8 @@ function App() {
         }}>Add Card</button>
       </form>
       {cards?.length && cards.map((card, index) => (
-        <div style={{
+        <div 
+        style={{
           display: 'flex',
           margin: '40px',
           flexDirection: 'column',
@@ -69,7 +69,7 @@ function App() {
           border: '1px solid black',
           backgroundColor: 'beige'
         }}>
-          <Card key={index} card={card} />
+          <Card key={index} card={card} handleDelite={handleDelite} />
         </div>
       ))}
     </div>

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { act } from 'react-dom/test-utils';
 
 export const cardsSlice = createSlice({
   name: 'cards',
@@ -13,11 +14,15 @@ export const cardsSlice = createSlice({
         timestamp: new Date().toString(),
       });
     },
+    rmCard: (state, action) => {
+      console.log('state, action', state, action)
+      return state.filter((card) => card.id !== action.payload.id)
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { addCard } = cardsSlice.actions
+export const { addCard, rmCard } = cardsSlice.actions
 
 export default cardsSlice.reducer
 
