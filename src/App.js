@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCard, rmCard } from './features/cards/cardsSlice';
+import { addCard, rmCard, changeCard } from './features/cards/cardsSlice';
 import Card from './components/Card';
 
 function App() {
@@ -17,18 +17,22 @@ function App() {
       })
     );
     event.target.reset();
- };
+  };
 
- const handleDelite = (id) => {
-  console.log('id', id)
-  // event.preventDefault();
-  dispatch(
-    rmCard({ 
-      id 
-    })
-  );
-  // event.target.reset();
-};
+  const handleDelite = (id) => {
+      dispatch(rmCard({ id })
+    );
+  };
+
+  const handleChange = ({id, title, description, imageUrl}) => {
+      dispatch(changeCard({ 
+        id,
+        title:prompt.value, 
+        description, 
+        // imageUrl: URL.createObjectURL(event.target.image.files[0])
+      })
+    );
+  };
 
  return (
     <div className="App" style={{backgroundColor: 'antiquewhite'}}>
@@ -39,20 +43,15 @@ function App() {
         alignItems: 'center'
       }}>
         <label htmlFor='title'>Title</label>
-        <input
-          key='title'
-          name='title'
-        />
+        <input key='title' name='title' />
         <label htmlFor='description'>Description</label>
-        <textarea
-          key='description'
-          name='description'
-        />
+        <textarea key='description' name='description' />
         <input type="file" id="image" name="image" 
         style={{
           margin: 20
         }} />
-        <button type="submit" style={{
+        <button type="submit" 
+        style={{
           backgroundColor: 'cadetblue',
           color: 'white',
           fontSize: 18,
@@ -69,7 +68,7 @@ function App() {
           border: '1px solid black',
           backgroundColor: 'beige'
         }}>
-          <Card key={index} card={card} handleDelite={handleDelite} />
+          <Card key={index} card={card} handleDelite={handleDelite} handleChange={handleChange} />
         </div>
       ))}
     </div>

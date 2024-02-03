@@ -1,4 +1,4 @@
-function Card({ card, handleDelite }) {
+function Card({ card, handleDelite, handleChange }) {
   return (
     <div style={{
       display: 'flex',
@@ -14,6 +14,7 @@ function Card({ card, handleDelite }) {
       />
       <h3>{card.title}</h3>
       <p>{card.description}</p>
+      <button onClick={() => handleChange(card)}>Change</button>
       <button onClick={() => handleDelite(card.id)}>Rm</button>
     </div>
   )
