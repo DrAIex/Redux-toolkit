@@ -1,30 +1,13 @@
-import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCard, rmCard, changeCard } from './features/cards/cardsSlice';
+import { addCard, rmCard, changeCard, toggleCreateModal } from './features/cards/cardsSlice';
 import Card from './components/Card';
 import Form from './components/Form';
 import { useLocalStorage } from './hooks/useLocalStorage';
-
-class CardClass {
-  constructor(title, description, imageUrl) {
-    this.id = Date.now();
-    this.title = title
-    this.description = description
-    this.imageUrl = URL.createObjectURL(imageUrl)
-    this.timestamp = new Date().toString()
-  }
-}
-
-class Chan extends CardClass {
-  constructor(id, ...restProps) {
-    super(...restProps)
-    this.id = id;
-  }
-}
+import { CardClass, ChangeClass } from './components/Classes';
 
 function App() {
  const dispatch = useDispatch();
- const [isOpen, setOpen] = useState(false)
+ const isCreateModalOpen = useSelector((state) => state.cards.isCreateModalOpen);
  const [cards, setCards] = useLocalStorage('cards', []);
 
  const handleSubmit = event => {
@@ -51,7 +34,7 @@ function App() {
     event.preventDefault();
     const cardId = event.target.children[5].value;
 
-    const changedCard = new Chan ( 
+    const changedCard = new ChangeClass ( 
       cardId,
       event.target.title.value, 
       event.target.description.value, 
@@ -67,10 +50,14 @@ function App() {
     event.target.reset();
   };
 
+  const handleModalToggle = () => {
+    dispatch(toggleCreateModal());
+  };
+
  return (
     <div className="App" style={{backgroundColor: 'palevioletred', paddingBottom: 20  }}>
-      <button onClick={() => setOpen(!isOpen)}>Open Modal</button>
-      <Form isOpen={isOpen} handler={handleSubmit} value="Add Card" />
+      <button onClick={handleModalToggle}>Open Modal</button>
+      <Form isOpen={isCreateModalOpen} handler={handleSubmit} value="Add Card" />
       {!!cards?.length && cards.map((card, index) => (
         <div 
         style={{
@@ -81,7 +68,7 @@ function App() {
           border: '1px solid black',
           backgroundColor: 'cadetblue'
         }}>
-          <Card key={index} card={card} handleDelite={handleDelite} handleChange={handleChange} setOpen={setOpen} />
+          <Card key={index} card={card} handleDelite={handleDelite} handleChange={handleChange} />
         </div>
       ))}
     </div>

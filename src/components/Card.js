@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Form from './Form';
+import { toggleChangeModal } from '../features/cards/cardsSlice';
 
 function Card({ card, handleDelite, handleChange }) {
- const [isOpen2, setOpen2] = useState(false)
- console.log('isOpen2', isOpen2)
-
+ const dispatch = useDispatch();
+ const isChangeModalOpen = useSelector((state) => state.cards.isChangeModalOpen);
+ 
+ const handleModalToggle = () => {
+  dispatch(toggleChangeModal());
+};
   return (
 
     <>
@@ -23,10 +27,10 @@ function Card({ card, handleDelite, handleChange }) {
         />
         <h3>{card.title}</h3>
         <p>{card.description}</p>
-        <button onClick={() => setOpen2(!isOpen2)}>Change</button>
+        <button onClick={handleModalToggle}>Change</button>
         <button onClick={() => handleDelite(card.id)}>Rm</button>
       </div>
-      <Form isOpen={isOpen2} handler={handleChange} value="Change" id={card.id} />
+      <Form isOpen={isChangeModalOpen} handler={handleChange} value="Change" id={card.id} />
     </>
   )
 }
