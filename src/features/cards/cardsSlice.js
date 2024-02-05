@@ -5,26 +5,18 @@ export const cardsSlice = createSlice({
   initialState: [],
   reducers: {
     addCard: (state, action) => {
-      return [...state, {
-        id: Date.now(),
-        title: action.payload.title,
-        description: action.payload.description,
-        imageUrl: action.payload.imageUrl,
-        timestamp: new Date().toString(),
-     }];
+      return [...state, action.payload];
     },
     rmCard: (state, action) => {
       return state.filter((card) => card.id !== action.payload.id)
     },
     changeCard: (state, action) => {
-      console.log('state, action', state, action)
-      const index = state.findIndex((card) => {
-        console.log('index', index)
-        if (index !== -1) {
-          state[index] = action.payload
-        }
-      })
-    }
+      const { id, ...changes } = action.payload;
+      const cardToUpdate = state.find((card) => card.id === id);
+      if (cardToUpdate) {
+         Object.assign(cardToUpdate, changes);
+      }
+     },
   },
 })
 
