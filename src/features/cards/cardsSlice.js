@@ -5,13 +5,13 @@ export const cardsSlice = createSlice({
   initialState: [],
   reducers: {
     addCard: (state, action) => {
-      state.push({
+      return [...state, {
         id: Date.now(),
         title: action.payload.title,
         description: action.payload.description,
         imageUrl: action.payload.imageUrl,
         timestamp: new Date().toString(),
-      });
+     }];
     },
     rmCard: (state, action) => {
       return state.filter((card) => card.id !== action.payload.id)
