@@ -19,7 +19,6 @@ export const useLocalStorage = (key, initialValue) => {
       console.log(error);
     }
  };
- console.log('storedValue', storedValue)
 
  return [storedValue, setValue];
 };

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addCard, rmCard, changeCard, toggleCreateModal } from './features/cards/cardsSlice';
+import { addCard, rmCard, changeCard, toggleCreateModal } from './features/cards/cardsSlice.ts';
 import Card from './components/Card';
-import Form from './components/Form';
+import Form from './components/Form.tsx';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { CardClass, ChangeClass } from './components/Classes';
 

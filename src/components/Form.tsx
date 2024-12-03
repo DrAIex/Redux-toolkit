@@ -1,4 +1,13 @@
-const Form = ({isOpen, handler, value, id}) => (
+import React, { FormEvent } from 'react';
+
+interface FormProps {
+    isOpen: boolean;
+    handler: (event: FormEvent<HTMLFormElement>) => void;
+    value: string;
+    id?: string | number;
+   }
+
+const Form: React.FC<FormProps> = ({isOpen, handler, value, id}) => (
     <div style={{ display: isOpen ? 'block' : 'none' }}>
         <form onSubmit={handler} 
             style={{

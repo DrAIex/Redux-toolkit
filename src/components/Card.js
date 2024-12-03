@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
-import Form from './Form';
-import { toggleChangeModal } from '../features/cards/cardsSlice';
+import Form from './Form.tsx';
+import { toggleChangeModal } from '../features/cards/cardsSlice.ts';
 
 function Card({ card, handleDelite, handleChange }) {
  const dispatch = useDispatch();
